@@ -1,5 +1,6 @@
 import React from 'react';
 import Input from '../Utilities/Input/Input.jsx';
+import Time from '../Utilities/Time/Time.jsx';
 import StartMenu from './StartMenu/StartMenu.jsx';
 import ConnectMenu from './ConnectMenu/ConnectMenu.jsx';
 import OptionsMenu from './OptionsMenu/OptionsMenu.jsx';
@@ -14,21 +15,6 @@ class MenuManager extends React.Component {
         this.state = {
             currentMenu: this.START_MENU
         }
-    }
-
-    componentDidMount() {
-        Input.on('upKeyPressed', () => {
-            console.log('UP PRESSED');
-        });
-        Input.on('upKeyReleased', () => {
-            console.log('UP RELEASED');
-        });
-        Input.on('downKeyPressed', () => {
-            console.log('DOWN PRESSED');
-        });
-        Input.on('downKeyReleased', () => {
-            console.log('DOWN RELEASED');
-        });
     }
 
     changeMenu(menu) {

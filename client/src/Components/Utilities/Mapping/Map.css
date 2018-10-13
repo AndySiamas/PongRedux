@@ -1,0 +1,21 @@
+.mapContainer {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: blue;
+}
+
+.map {
+}
+
+#mapCanvas {
+    background: url('../../../Images/InGame/InGameBackground.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-color: black;
+}
