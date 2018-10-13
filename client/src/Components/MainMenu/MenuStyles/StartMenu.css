@@ -1,0 +1,65 @@
+.StartMenu {
+    display: flex;
+    flex: 0.8;
+    flex-direction: column;
+    width: 50%;
+    min-height: 50%;
+    max-height: 50%;
+}
+
+.TitleDiv {
+    display: flex;
+    flex: 2;
+    justify-content: center;
+    align-items: top;
+}
+
+.TitleBox {
+    display: flex;
+    flex: 0.7;
+    height: 80%;
+    width: 80%;
+}
+
+.Title {
+    flex: 1;
+    height: 80%;
+    width: 80%;
+}
+
+.PlayAndOptionsDiv {
+    display: flex;
+    flex: 0.5;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 20%;
+    max-height: 20%;
+}
+
+.PlayButtonDiv {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: -2vh;
+}
+
+.OptionsButtonDiv {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.PlayButton {
+    flex: 0.5;
+    height: 20%;
+    width: 20%;
+}
+
+.OptionsButton {
+    flex: 0.5;
+    height: 20%;
+    width: 20%;
+}

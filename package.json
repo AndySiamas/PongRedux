@@ -1,0 +1,74 @@
+{
+  "name": "kickstarter-description-component",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "describe": "^1.2.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react",
+      "@babel/preset-env"
+    ]
+  },
+  "jest": {
+    "scriptPreprocessor": "./node_modules/babel-jest",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react",
+      "<rootDir>/node_modules/react-dom",
+      "<rootDir>/node_modules/react-addons-test-utils",
+      "<rootDir>/node_modules/fbjs"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/testing/AssetsTransformer.js",
+      "\\.(css|less)$": "<rootDir>/testing/AssetsTransformer.js"
+    }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0-beta.51",
+    "@babel/preset-env": "^7.0.0-beta.51",
+    "@babel/preset-react": "^7.0.0-beta.51",
+    "async": "^2.6.1",
+    "axios": "^0.18.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.1",
+    "bootstrap": "^4.1.3",
+    "bufferutil": "^4.0.0",
+    "chai": "^4.1.2",
+    "css-loader": "^1.0.0",
+    "enzyme": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.5.0",
+    "express": "^4.16.3",
+    "file-loader": "^2.0.0",
+    "jest": "^23.6.0",
+    "jquery": "^3.3.1",
+    "mocha": "^5.2.0",
+    "mockery": "^2.1.0",
+    "moment": "^2.22.2",
+    "mongoose": "^5.2.12",
+    "mysql": "^2.16.0",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-load-script": "0.0.6",
+    "react-test-renderer": "^16.5.0",
+    "socket.io": "^2.1.1",
+    "style-loader": "^0.23.0",
+    "utf-8-validate": "^5.0.1",
+    "uws": "^99.0.0",
+    "velocity-animate": "^1.5.2",
+    "velocity-react": "^1.4.1",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "scripts": {
+    "client": "webpack -d --watch",
+    "server": "node server/server.js",
+    "database": "cd db && mongod",
+    "test": "jest --verbose"
+  },
+  "author": "",
+  "license": "ISC"
+}

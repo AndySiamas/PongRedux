@@ -1,0 +1,13 @@
+.Map {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 500px;
+    width: 500px;
+}
+
+.Row {
+    display: flex;
+    flex: 1;
+    height: 10px;
+}
