@@ -5,10 +5,8 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    background-color: blue;
-}
-
-.map {
+    background-color: black;
+    font-family: 'Orbitron';
 }
 
 #mapCanvas {

@@ -1,11 +1,20 @@
 class Wall {
-    constructor(name, sprite, x, y, w, h) {
+    constructor(name, sprite) {
         this.name = name;
         this.sprite = sprite;
-        this.x = x;
-        this.y = y;
-        this.width = 50;
+        this.width = 1000;
         this.height = 50;
+        this.getPosition();
+    }
+
+    getPosition() {
+        if (this.name === 'topWall') {
+            this.x = 0;
+            this.y = 0;
+        } else {
+            this.x = 0;
+            this.y = 550;
+        }
     }
 };
 

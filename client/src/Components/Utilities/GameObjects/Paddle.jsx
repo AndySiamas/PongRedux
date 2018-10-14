@@ -1,11 +1,21 @@
 class Paddle {
-    constructor(name, sprite, x, y) {
+    constructor(name, sprite, map) {
         this.name = name;
         this.sprite = sprite;
-        this.x = x;
-        this.y = y;
-        this.width = 50;
-        this.height = 100;
+        this.map = map;
+        this.width = 25;
+        this.height = 90;
+        this.resetPosition();
+    }
+
+    resetPosition() {
+        if (this.name === 'redPaddle') {
+            this.x = 100;
+            this.y = 250;
+        } else {
+            this.x = 870;
+            this.y = 250;
+        }
     }
 };
 

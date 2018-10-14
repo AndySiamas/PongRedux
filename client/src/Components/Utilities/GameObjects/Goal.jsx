@@ -1,11 +1,20 @@
 class Goal {
-    constructor(name, sprite, x, y, w, h) {
+    constructor(name, sprite) {
         this.name = name;
         this.sprite = sprite;
-        this.x = x;
-        this.y = y;
-        this.width = w;
-        this.height = h;
+        this.width = 100;
+        this.height = 600;
+        this.resetPosition();
+    }
+
+    resetPosition() {
+        if (this.name === 'redGoal') {
+            this.x = -10;
+            this.y = 0;
+        } else {
+            this.x = 910;
+            this.y = 0;
+        }
     }
 };
 

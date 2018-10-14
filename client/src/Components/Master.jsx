@@ -11,7 +11,7 @@ class Master extends React.Component {
         this.LOCAL_GAME = 'LOCAL_GAME';
         this.NETWORK_GAME = 'NETWORK_GAME';
         this.state = {
-            currentScreen: this.NETWORK_GAME    
+            currentScreen: 'NETWORK_GAME'
         }
     }
 

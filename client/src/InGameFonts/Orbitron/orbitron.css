@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Orbitron';
+    src: url('Orbitron-Medium.eot');
+    src: url('Orbitron-Medium.eot?#iefix') format('embedded-opentype'),
+        url('Orbitron-Medium.woff2') format('woff2'),
+        url('Orbitron-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+

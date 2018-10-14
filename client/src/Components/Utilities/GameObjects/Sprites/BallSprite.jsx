@@ -1,4 +1,4 @@
-import Ball from '../../../../Images/InGame/Ball.png';
+import BallImage from '../../../../Images/InGame/Ball.png';
 
 const BallSprite = (name) => {
     return new Promise((resolve) => {
@@ -7,7 +7,7 @@ const BallSprite = (name) => {
         sprite.onload = () => {
             resolve(entity);
         };
-        sprite.src = Ball;
+        sprite.src = BallImage;
     });
 };
 

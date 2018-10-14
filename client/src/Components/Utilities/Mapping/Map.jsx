@@ -1,5 +1,8 @@
 import React from 'react';
+import Score from '../UI/Score.jsx';
+import Time from '../Time/Time.jsx';
 import './Map.css';
+import '../../../InGameFonts/Orbitron/orbitron.css';
 
 class Map extends React.Component {
     constructor(props) {
@@ -13,8 +16,7 @@ class Map extends React.Component {
     }
 
     componentDidMount() {
-        this.resizeMap();
-        window.addEventListener("resize", this.resizeMap.bind(this));
+        //this.createEventListeners();
     }
 
     loadEntities() {
@@ -31,20 +33,14 @@ class Map extends React.Component {
         }
     }
 
-    resizeMap() {
-        this.setState({width: window.innerWidth});
-        this.setState({height: window.innerWidth * this.widthToHeight});
-    }
-
     render() {
         return (
             <div className="mapContainer">
-                <div className="map">
-                    <canvas id="mapCanvas" 
-                            width={this.state.width}
-                            height={this.state.height}
-                            ref="canvas"/>
-                </div>
+                <Score />
+                <canvas id="mapCanvas" 
+                        width={1000}
+                        height={600}
+                        ref="canvas" />
                 {this.update(this.props)}
             </div>
         );
