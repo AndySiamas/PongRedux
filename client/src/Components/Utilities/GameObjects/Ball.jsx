@@ -9,7 +9,7 @@ class Ball {
         this.x = 0;
         this.y = 0;
         this.direction = {x: 1, y: 0};
-        this.speed = 3;
+        this.speed = 7;
         this.redGoalX = 40;
         this.blueGoalX = 940;
         this.redPaddleX = 117;
@@ -20,6 +20,7 @@ class Ball {
         this.gameState = null;
         this.bluePaddle = null;
         this.redPaddle = null;
+        this.goalCallback = () => { return; }
         this.getVelocity();
         this.resetPosition();
         this.createEventListeners();
@@ -103,12 +104,18 @@ class Ball {
         // IF HIT THE RED GOAL
         if (this.x <= this.redGoalX) {
             this.velocity.x *= -1;
+            this.goalCallback('red');
         }
 
         // IF HIT THE BLUE GOAL
         if (this.x >= this.blueGoalX) {
             this.velocity.x *= -1;
+            this.goalCallback('blue');
         }
+    }
+
+    onGoal(cb) {
+        this.goalCallback = cb;
     }
 };
 

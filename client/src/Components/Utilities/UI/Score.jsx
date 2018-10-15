@@ -7,16 +7,12 @@ import './Score.css';
 class Score extends React.Component {
     constructor(props) {
         super(props);
-        this.salt = this.createSalt();
         this.state = {
             redPoints: 0,
             bluePoints: 0,
-            countDown: false
+            countDown: false,
+            salt: String(Date.now())
         }
-    }
-
-    createSalt() {
-        return String(Date.now());
     }
 
     restartCountdown() {
@@ -25,7 +21,7 @@ class Score extends React.Component {
     }
 
     getCountdown() {
-        return <img src={`${CountDown}?x=${this.salt}`} id="countDown" ref="countDown"/>;
+        return <img src={`${CountDown}?x=${this.state.salt}`} id="countDown" ref="countDown"/>;
     }
 
     render() {

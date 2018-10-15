@@ -34,7 +34,8 @@ class NetworkGameManager extends React.Component {
         this.state = {
             readyToPlay: true,  // COMMENT TO FALSE WHEN TESTING ON SERVER!
             gameInAction: false,
-            round: 0,
+            bluePoints: 0,
+            redPoints: 0,
             entities: {}
         }
     }
@@ -43,7 +44,7 @@ class NetworkGameManager extends React.Component {
         //this.loadAssets();        // COMMENT IN IF TESTING ON SERVER!
         this.clientLoadAssets();    // COMMENT OUT IF TESTING ON SERVER!
         this.createEventListeners();
-        this.startGame();
+        this.startRound();
     }
 
     loadAssets() {
@@ -69,13 +70,75 @@ class NetworkGameManager extends React.Component {
         let redPaddle = this.state.entities[`redPaddle`];
         let ball = this.state.entities['ball'];
         ball.getGameState(bluePaddle, redPaddle,this);
+        ball.onGoal((color) => {
+            ball.resetPosition();
+            this.addScore(color);
+        });
     }
 
-    startGame() {
+    startRound() {
         Time.in(3000, 'startRound', () => {
             this.setState({gameInAction: true});
-            console.log('START!');
         });
+    }
+
+    addScore(color) {
+        if (color === 'red') {
+            if (this.state.redPoints >= 4) {
+                this.triggerWin('red');
+            } else {
+                this.triggerScore('red');
+            }
+        }
+        
+        else if (color === 'blue') {
+            if (this.state.bluePoints >= 4) {
+                this.triggerWin('blue');
+            } else {
+                this.triggerScore('blue');
+            }
+        }
+    }
+
+    triggerScore(color) {
+        let score = this.refs.map.refs.score;
+        if (color === 'red') {
+            score.setState({bluePoints: this.state.bluePoints+1});
+            score.setState({salt: String(Date.now())});
+            this.setState({bluePoints: this.state.bluePoints+1});
+            this.triggerOSD('blueScored');
+        } else {
+            score.setState({redPoints: this.state.redPoints+1});
+            score.setState({salt: String(Date.now())});
+            this.setState({redPoints: this.state.redPoints+1});
+            this.triggerOSD('redScored');
+        }
+        this.setState({gameInAction: false});
+        this.startRound();
+    }
+
+    triggerWin(color) {
+        let score = this.refs.map.refs.score;
+        if (color === 'red') {
+            score.setState({bluePoints: this.state.bluePoints+1});
+            this.setState({bluePoints: this.state.bluePoints+1});
+            this.triggerOSD('blueWins');
+        } else {
+            score.setState({bluePoints: this.state.bluePoints+1});
+            this.setState({bluePoints: this.state.bluePoints+1});
+            this.triggerOSD('redWins');
+        }
+        this.setState({gameInAction: false});
+    }
+
+    endGame() {
+
+    }
+
+    triggerOSD(newAnimation) {
+        let osd = this.refs.map.refs.osd;
+        osd.setState({salt: String(Date.now())});
+        osd.setState({currentAnimation: newAnimation});
     }
 
     // ---------------------------------------------------
@@ -92,7 +155,9 @@ class NetworkGameManager extends React.Component {
         return (
             <div className="NetworkGame">
                 <Map ref="map" 
-                     entities={this.state.entities} />
+                     entities={this.state.entities} 
+                     game={this} 
+                     score={{blue: this.state.blueScore, red: this.state.redScore}}/>
             </div>
         );
     }

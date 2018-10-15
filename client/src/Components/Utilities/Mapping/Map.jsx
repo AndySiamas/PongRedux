@@ -1,5 +1,6 @@
 import React from 'react';
 import Score from '../UI/Score.jsx';
+import OSD from '../UI/OSDManager.jsx';
 import Time from '../Time/Time.jsx';
 import './Map.css';
 import '../../../InGameFonts/Orbitron/orbitron.css';
@@ -35,7 +36,10 @@ class Map extends React.Component {
     render() {
         return (
             <div className="mapContainer">
-                <Score />
+                <Score score={this.props.score}
+                       ref="score"/>
+                <OSD color={this.props.game.playerColor} 
+                     ref="osd"/>
                 <canvas id="mapCanvas" 
                         width={1000}
                         height={600}
