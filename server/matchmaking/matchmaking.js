@@ -1,11 +1,15 @@
 // DEPENDENCIES
 const server = require('../mainServer.js');
+const gameServer = require('../game/gameServer.js');
 const socket = require('socket.io');
 const io = socket(server);
 const client = require('./client.js');
 
 // POOL OF CLIENTS
 const clientPool = [];
+
+// GAME COUNTER
+var gameCount = 0;
 
 // EVENTS
 // WHEN A CLIENT CONNECTS
@@ -39,6 +43,10 @@ const matchClient = (newClient) => {
 
 // CREATE A NEW GAME BETWEEN CLIENTS
 const createGame = (clientOne, clientTwo) => {
-    clientOne.stream.emit('match', clientTwo.id);
-    clientTwo.stream.emit('match', clientOne.id);
+    let room = `Room ${gameCount++}`;
+    clientOne.stream.join(room);
+    clientTwo.stream.join(room);
+    gameServer.createGame(clientOne, clientTwo, io, room);
 }
+
+module.exports = io;

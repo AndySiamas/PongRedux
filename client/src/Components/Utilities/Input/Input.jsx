@@ -39,5 +39,4 @@ class Input {
     }
 }
 
-const _Input = new Input();
-export default _Input;
+export default Input;

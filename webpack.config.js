@@ -1,7 +1,7 @@
 const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-    entry: __dirname + '/client/src/Components/index.jsx',	// Your starting file
+    entry: ['babel-polyfill', __dirname + '/client/src/Components/index.jsx'],
     module: {
     rules: [
         { 

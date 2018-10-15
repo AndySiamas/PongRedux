@@ -1,7 +1,7 @@
 import React from 'react';
 import MainMenu from './MainMenu/MenuManager.jsx';
 import LocalGame from './Local_Game/LocalGameManager.jsx';
-import NetworkGame from './Network_Game/NetworkGameManager.jsx';
+import NetworkGame from './Network_Game/NetworkGame.jsx';
 import './Master.css';
 
 class Master extends React.Component {

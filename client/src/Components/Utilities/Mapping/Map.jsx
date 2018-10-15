@@ -10,22 +10,21 @@ class Map extends React.Component {
         this.widthToHeight = 3/4;
         this.state = {
             width: window.innerWidth,
-            height: window.innerWidth * this.widthToHeight,
-            loadedEntities: false
+            height: window.innerWidth * this.widthToHeight
         }
     }
 
     componentDidMount() {
-        //this.createEventListeners();
+        //setTimeout(this.update.bind(this), 100);
+        Time.onEveryFrame('updateCanvas', this.update.bind(this));
     }
 
-    loadEntities() {
-        this.setState({loadedEntities: true});
-    }
-
-    update({entities}) {
-        if (entities && this.refs.canvas) {
-            var stage = this.refs.canvas.getContext('2d');
+    update() {
+        let entities = this.props.entities;
+        let canvas = this.refs.canvas;
+        if (entities && canvas) {
+            var stage = canvas.getContext('2d');
+            stage.clearRect(0, 0, canvas.width, canvas.height);
             for (var name in entities) {
                 let {sprite, x, y, width, height} = entities[name];
                 stage.drawImage(sprite, x, y, width, height);
@@ -41,7 +40,6 @@ class Map extends React.Component {
                         width={1000}
                         height={600}
                         ref="canvas" />
-                {this.update(this.props)}
             </div>
         );
     }
