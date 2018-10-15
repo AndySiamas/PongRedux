@@ -20,7 +20,7 @@ class Ball {
         this.gameState = null;
         this.bluePaddle = null;
         this.redPaddle = null;
-        this.goalCallback = () => { return; }
+        this.goalCallback;
         this.getVelocity();
         this.resetPosition();
         this.createEventListeners();
@@ -39,11 +39,12 @@ class Ball {
         this.velocity = velocity;
     }
 
-    getGameState(bluePaddle, redPaddle, state) {
+    getGameState(bluePaddle, redPaddle, state, cb) {
         this.gameState = state;
         this.bluePaddle = bluePaddle;
         this.redPaddle = redPaddle;
         this.getVelocity();
+        this.goalCallback = cb.bind(state);
     }
 
     createEventListeners() {
@@ -67,6 +68,7 @@ class Ball {
     isInSafeZone(buffer = 25) {
         let safeFromRed = this.x > (this.redPaddleX + buffer);
         let safeFromBlue = this.x < (this.bluePaddleX - buffer);
+        console.log(safeFromRed, safeFromBlue);
         return safeFromRed && safeFromBlue;
     }
 
@@ -112,10 +114,6 @@ class Ball {
             this.velocity.x *= -1;
             this.goalCallback('blue');
         }
-    }
-
-    onGoal(cb) {
-        this.goalCallback = cb;
     }
 };
 
