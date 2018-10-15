@@ -87,7 +87,7 @@ class Ball {
     checkPaddleCollisions() {
         // IF ON THE SAME X AXIS AS THE RED PADDLE
         if (this.x <= this.redPaddleX + this.paddleBuffer && this.x >= this.redPaddleX - this.paddleBuffer) {
-            if (this.y >= this.redPaddle.y && this.y <= this.redPaddle.y + this.redPaddle.height) {
+            if (this.y >= this.redPaddle.y-20 && this.y <= this.redPaddle.y + this.redPaddle.height) {
                 this.velocity.x *= -1;
                 this.velocity.y += this.redPaddle.dir;
             }
@@ -95,7 +95,7 @@ class Ball {
 
         // IF ON THE SAME X AXIS AS THE BLUE PADDLE
         if (this.x <= this.bluePaddleX + this.paddleBuffer && this.x >= this.bluePaddleX - this.paddleBuffer) {
-            if (this.y >= this.bluePaddle.y && this.y <= this.bluePaddle.y + this.bluePaddle.height) {
+            if (this.y >= this.bluePaddle.y-20 && this.y <= this.bluePaddle.y + this.bluePaddle.height) {
                 this.velocity.x *= -1;
                 this.velocity.y += this.bluePaddle.dir;
             }
