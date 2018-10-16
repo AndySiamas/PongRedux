@@ -11,6 +11,10 @@ GameServer.createGame = (clientOne, clientTwo, io, room) => {
     Players[clientOne.id] = new Player(clientOne.stream, clientTwo.id, room, serverBall);
     Players[clientTwo.id] = new Player(clientTwo.stream, clientOne.id, room, serverBall);
 
+    console.log('CREATED PLAYERS');
+    console.log('PLAYER 1:-------\n', clientOne.id);
+    console.log('PLAYER 2:-------\n', clientTwo.id);
+
     // Notify players they have been matched
     clientOne.stream.emit('matched', clientOne.id);
     clientTwo.stream.emit('matched', clientTwo.id);
@@ -38,12 +42,13 @@ GameServer.createGameListeners = (clients, room, io) => {
 
 // PLAYER NOTIFYS US THAT HE IS READY TO PLAY
 GameServer.handlePlayerReady = (id, room, io) => {
+    console.log('PLAYER READY: ', id);
     var player = Players[id];
     var opponent = Players[player.opponentId];
-    var ball = player.ball;
     player.readyToPlay = true;
-    if (opponent.readyToPlay) {
+    if (opponent && opponent.readyToPlay) {
         GameServer.emitBothPlayersReady(player, opponent, room, io);
+        console.log('BOTH PLAYERS READY!');
     }
 }
 
@@ -52,14 +57,10 @@ GameServer.handlePlayerState = (id, position, direction, tick, io) => {
     var player = Players[id];
     var opponent = Players[player.opponentId]; 
     var room = player.room;
-    var ball = player.ball;
     player.sentUpdate = true;
     player.position = position + direction;
     player.direction = direction;
     player.tick = tick;
-
-    // increase balls speed over time
-    ball.acceleration += 0.1;
 
     if (opponent && opponent.sentUpdate) {
         player.sentUpdate = false;
@@ -136,11 +137,11 @@ GameServer.emitServerUpdate = (room, player, opponent, io) => {
     io.to(room).emit('serverUpdate', clientOne, clientTwo, newBall);
 }
 
-
 // WHEN THE GAME IS OVER
 GameServer.handleGameOver = (id) => {
     Players[id].socket.disconnect();
     delete Players[id];
+    setTimeout(() => { console.log(Players); }, 1000);
 }
 
 module.exports = GameServer;

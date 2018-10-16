@@ -134,8 +134,12 @@ class NetworkGameManager extends React.Component {
     }
 
     endGame() {
+        Time.reset();
         ServerManager.notifyGameOver();
-        ServerManager.trigger('disconnect');
+        ServerManager.removeTask('startInformation', 'changeClientColor');
+        ServerManager.removeTask('serverUpdate', 'updateClientState');
+        ServerManager.removeTask('playerScore', 'updatePlayerScore');
+        ServerManager.removeTask('playerWin', 'playerWon');
     }
 
     startClientTick() {
@@ -215,9 +219,6 @@ class NetworkGameManager extends React.Component {
 
         // When server tells us a player scored
         ServerManager.on('playerScore', 'updatePlayerScore', this.playerScores.bind(this));
-
-        // When server tells us a player scored
-        ServerManager.on('playerWin', 'playerWon', this.triggerWin.bind(this));
     }
 
     render() {

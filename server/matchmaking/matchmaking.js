@@ -15,18 +15,20 @@ var gameCount = 0;
 // WHEN A CLIENT CONNECTS
 io.on('connection', (socket) => {
     var newClient = new client(socket);
+    console.log('CLIENT: ', socket.id, ' HAS ENTERED');
 
     // IF THERE ARE NO CLIENTS AVAILABLE
     if (clientPool.length === 0) {
         clientPool.push(newClient);
         console.log('NO CLIENTS AVAILABLE, PUTTING IN POOL...');
+        console.log('Current Pool: ', clientPool);
         return;
     }
 
     // IF THERE ARE CLIENTS IN THE POOL
     else if (clientPool.length > 0) {
-        matchClient(newClient);
         console.log('CLIENTS ARE AVAILABLE, MATCHING NOW...');
+        matchClient(newClient);
         return;
     }
 });
@@ -37,7 +39,8 @@ const matchClient = (newClient) => {
     let pooledClient = clientPool[0];
     createGame(newClient, pooledClient);
     clientPool.splice(0, 1);
-    console.log(clientPool);
+    console.log('DELETED ' + pooledClient.id);
+    console.log('Current Pool: ', clientPool);
     return;
 }
 
@@ -47,6 +50,7 @@ const createGame = (clientOne, clientTwo) => {
     clientOne.stream.join(room);
     clientTwo.stream.join(room);
     gameServer.createGame(clientOne, clientTwo, io, room);
+    console.log('CREATED ROOM ', room);
 }
 
 module.exports = io;

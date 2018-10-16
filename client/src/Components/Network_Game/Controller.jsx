@@ -5,7 +5,7 @@ class Controller {
     constructor(paddle, game) {
         this.input = new Input();
         this.paddle = paddle;
-        this.speed = 7;
+        this.speed = 8;
         this.dir = 0;
         this.game = game || null;
         this.createEventListeners();

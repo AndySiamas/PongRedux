@@ -94,12 +94,12 @@ class _ServerManager {
         this.connectedToServer = false;
         this.clientId = null;
         this.io.disconnect();
+        this.io = null;
         this.trigger('disconnect');
     }
 
     // Handle both players are ready
     handlePlayersReady() {
-        console.log('BOTH PLAYERS ARE READY. START GAME');
         this.trigger('bothPlayersReady');
     }
 
@@ -132,6 +132,7 @@ class _ServerManager {
 
     notifyGameOver() {
         this.io.emit('gameOver', this.clientId);
+        this.trigger('disconnect');
     }
 
     notifyPlayerStartedRound() {

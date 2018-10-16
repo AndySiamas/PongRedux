@@ -1,11 +1,8 @@
-import async from 'async';
-
 class Time {
     constructor() {
         this.loop;
-
         // FPS
-        this.fps = 15;
+        this.fps = 12;
 
         // TIMESTAMPS
         this.ticks = 0;
@@ -74,6 +71,17 @@ class Time {
     start() {
         this.isRunning = true;
         this.loop = setInterval(this.runEvents.bind(this), this.fps);
+    }
+
+    reset() {
+        clearInterval(this.loop);
+        this.ticks = 0;
+        this.isRunning = true;
+        this.eventNames = {};
+        this.events = [];
+        this.timerOn = false;
+        this.timerEvents = {};
+        this.start();
     }
 }
 
