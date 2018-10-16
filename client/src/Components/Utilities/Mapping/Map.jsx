@@ -38,7 +38,7 @@ class Map extends React.Component {
             <div className="mapContainer">
                 <Score score={this.props.score}
                        ref="score"/>
-                <OSD color={this.props.game.playerColor} 
+                <OSD gameState={this.props.game.state} 
                      ref="osd"/>
                 <canvas id="mapCanvas" 
                         width={1000}

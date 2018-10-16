@@ -2,11 +2,14 @@ import async from 'async';
 
 class Time {
     constructor() {
+        this.loop;
+
         // FPS
         this.fps = 15;
 
         // TIMESTAMPS
         this.ticks = 0;
+        this.isRunning = true;
 
         // EVERY FRAME EVENTS
         this.eventNames = {};
@@ -15,10 +18,12 @@ class Time {
         // TIMER EVENTS
         this.timerOn = false;
         this.timerEvents = {};
-        setInterval(this.runEvents.bind(this), this.fps);
+
+        this.start();
     }
 
     runEvents() {
+        if (!this.isRunning) return;
         // CHECK FOR TIMER EVENTS
         if (this.timerOn) {
             for (let name in this.timerEvents) {
@@ -26,7 +31,7 @@ class Time {
                 // IF IT IS TIME FOR EVENT TO RUN
                 if (timerEvent.msLeft <= 0) { 
                     // TRIGGER THE EVENT AND DELETE IT
-                    timerEvent.callback();
+                    timerEvent.callback(this.ticks);
                     delete this.timerEvents[name];
                     // IF NO MORE TIMER EVENTS, TURN OFF TIMER
                     if (!Object.keys(this.timerEvents).length) this.timerOn = false;
@@ -39,7 +44,8 @@ class Time {
 
         // TRIGGER EVENTS
         this.events.forEach(([name, callback]) => {
-            callback();
+            this.ticks++;
+            callback(this.ticks);
         });
     }
 
@@ -58,6 +64,16 @@ class Time {
         }
         this.timerOn = true;
         this.timerEvents[eventName] = new timerEvent(ms, eventName, callback);
+    }
+
+    stop() {
+        this.isRunning = false;
+        clearInterval(this.loop);
+    }
+
+    start() {
+        this.isRunning = true;
+        this.loop = setInterval(this.runEvents.bind(this), this.fps);
     }
 }
 

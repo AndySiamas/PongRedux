@@ -16,23 +16,28 @@ class OSDManager extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.setState({currentAnimation: `YouAre${this.props.color}`});
+    getColor(gameState) {
+        console.log(gameState.playerColor);
+        if (gameState && gameState.playerColor) {
+            return `YouAre${gameState.playerColor}`;
+        }
     }
 
     playAnimation(name) {
-        var animation;
-        if (!name) return;
-        switch (name) {
-            case 'blueScored': animation = BlueScored; break;
-            case 'redScored': animation = RedScored; break;
-            case 'blueWins': animation = BlueWins; break;
-            case 'redWins': animation = RedWins; break;
-            case 'YouArered': animation = YouAreRed; break;
-            case 'YouAreblue': animation = YouAreBlue; break;
+        if (this.props.gameState) {
+            var animation;
+            if (!name) return;
+            switch (name) {
+                case 'blueScored': animation = BlueScored; break;
+                case 'redScored': animation = RedScored; break;
+                case 'blueWins': animation = BlueWins; break;
+                case 'redWins': animation = RedWins; break;
+                case 'YouArered': animation = YouAreRed; break;
+                case 'YouAreblue': animation = YouAreBlue; break;
+            }
+            var result = <img src={`${animation}?x=${this.state.salt}`} id="osdAnimation" ref="osdAnimation"/>;
+            return result;
         }
-        var result = <img src={`${animation}?x=${this.state.salt}`} id="osdAnimation" ref="osdAnimation"/>;
-        return result;
     }
 
     render() {

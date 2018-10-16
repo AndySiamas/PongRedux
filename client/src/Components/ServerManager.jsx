@@ -19,7 +19,7 @@ class _ServerManager {
         return new Promise((resolve) => {
             if (!this.connectedToServer) {
                 // Attempt to connect to server
-                this.io = connect(this.server, {reconnect: true});
+                this.io = connect(this.server);
 
                 // When matched
                 this.io.on('matched', (clientId) => {
@@ -30,10 +30,6 @@ class _ServerManager {
                 });
             }
         });
-    }
-
-    notifyPlayerIsReady() {
-        this.io.emit('playerReady', this.clientId);
     }
 
     loadEntities(entities) {
@@ -75,6 +71,10 @@ class _ServerManager {
         this.io.on('bothPlayersReady', () => { this.handlePlayersReady() });
         // When server tells us basic information (color, etc...)
         this.io.on('startInformation', (color) => { this.handleStartInformation(color) });
+        // When server tells us to update our state
+        this.io.on('serverUpdate', (playerOne, playerTwo, ball) => { 
+            this.handleServerUpdate(playerOne, playerTwo, ball);
+        });
     }
     
     // ---------------------------------------------------
@@ -98,6 +98,26 @@ class _ServerManager {
     // Handle starting information from server
     handleStartInformation(color) {
         this.trigger('startInformation', color);
+    }
+
+    // Handle information coming from server
+    handleServerUpdate(playerOne, playerTwo, ball) {
+        this.trigger('serverUpdate', playerOne, playerTwo, ball);
+    }
+
+    // ---------------------------------------------------
+    // EMITTERS ------------------------------------------
+    // ---------------------------------------------------
+    notifyPlayerIsReady() {
+        this.io.emit('playerReady', this.clientId);
+    }
+
+    notifyGameOver() {
+        this.io.emit('gameOver', this.clientId);
+    }
+
+    sendPlayerState(position, direction, tick) {
+        this.io.emit('playerState', this.clientId, position, direction, tick);
     }
 };
 

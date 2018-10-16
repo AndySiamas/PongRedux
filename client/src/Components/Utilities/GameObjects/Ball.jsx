@@ -23,7 +23,6 @@ class Ball {
         this.goalCallback;
         this.getVelocity();
         this.resetPosition();
-        this.createEventListeners();
     }
 
     resetPosition() {
@@ -47,28 +46,10 @@ class Ball {
         this.goalCallback = cb.bind(state);
     }
 
-    createEventListeners() {
-        Time.onEveryFrame('moveBall', () => {
-            this.move();
-        });
-    }
-
-    move() {
-        if (!this.gameState || !this.gameState.state.gameInAction) return;
-        this.x += this.velocity.x;
-        this.y += this.velocity.y;
-        this.checkWallCollisions();
-        if (!this.isInSafeZone()) {
-            this.checkGoalCollisions();
-            this.checkPaddleCollisions();
-        }
-    }
-
     // OPTOMIZATION TO PREVENT UNECESSARY COLLISION CHECKS
     isInSafeZone(buffer = 25) {
         let safeFromRed = this.x > (this.redPaddleX + buffer);
         let safeFromBlue = this.x < (this.bluePaddleX - buffer);
-        console.log(safeFromRed, safeFromBlue);
         return safeFromRed && safeFromBlue;
     }
 
@@ -106,13 +87,13 @@ class Ball {
         // IF HIT THE RED GOAL
         if (this.x <= this.redGoalX) {
             this.velocity.x *= -1;
-            this.goalCallback('red');
+            this.goalCallback('blue');
         }
 
         // IF HIT THE BLUE GOAL
         if (this.x >= this.blueGoalX) {
             this.velocity.x *= -1;
-            this.goalCallback('blue');
+            this.goalCallback('red');
         }
     }
 };

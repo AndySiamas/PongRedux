@@ -38,6 +38,7 @@ class ConnectMenu extends React.Component {
         // WHEN ALL PLAYERS ARE READY, START THE GAME
         ServerManager.on('bothPlayersReady', 'startClientGame', () => {
             this.props.changeScreen('NETWORK_GAME');
+            ServerManager.removeTask('disconnect', 'changeMenuOnDisconnect');
         });
     }
 

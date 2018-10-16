@@ -9,6 +9,10 @@ app.use(express.static(__dirname + '/../public/'));
 app.use('/', express.static(__dirname + '/../public/'));
 app.use(parser.json());
 
+app.get('/', (req, res) => {
+    console.log('REQUEST!');
+})
+
 // SET PORT
 app.set('port', process.env.PORT || 1600);
 

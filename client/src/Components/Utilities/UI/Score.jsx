@@ -8,8 +8,6 @@ class Score extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            redPoints: 0,
-            bluePoints: 0,
             countDown: false,
             salt: String(Date.now())
         }
@@ -31,7 +29,7 @@ class Score extends React.Component {
                     <div className="redScoreBox">
                         <div className="redDiv">
                             <img src={RedIcon} id="redIcon"/>
-                            {this.state.redPoints}
+                            {this.props.score.redPoints}
                         </div>
                     </div>
                     <div className="TimeBox">
@@ -39,7 +37,7 @@ class Score extends React.Component {
                     </div>
                     <div className="blueScoreBox">
                         <div className="blueDiv">
-                            {this.state.bluePoints}
+                            {this.props.score.bluePoints}
                             <img src={BlueIcon} id="blueIcon"/>
                         </div>
                     </div>
