@@ -19,7 +19,7 @@ class _ServerManager {
         return new Promise((resolve) => {
             if (!this.connectedToServer) {
                 // Attempt to connect to server
-                this.io = connect(this.server);
+                this.io = connect();
 
                 // When matched
                 this.io.on('matched', (clientId) => {

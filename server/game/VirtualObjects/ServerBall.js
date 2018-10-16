@@ -4,8 +4,8 @@ class ServerBall {
         this.height = 25;
         this.x = 0;
         this.y = 0;
-        this.direction = {x: 1, y: 0.25};
-        this.speed = 8;
+        this.direction = {x: 1, y: 1};
+        this.speed = 6;
         this.redGoalX = 40;
         this.blueGoalX = 940;
         this.redPaddleX = 117;
@@ -34,6 +34,8 @@ class ServerBall {
     resetPosition() {
         this.x = 500;
         this.y = 300;
+        this.direction.y = Math.random();
+        this.acceleration = 1;
     }
 
     getVelocity() {
@@ -78,7 +80,7 @@ class ServerBall {
             if (this.y >= this.redPaddle.position-20 && this.y <= this.redPaddle.position + this.redPaddle.height) {
                 let randomSpin = Math.random() * 2;
                 this.velocity.x *= -1;
-                this.velocity.y += this.redPaddle.direction * randomSpin;
+                this.velocity.y += this.redPaddle.direction + randomSpin;
             }
         }
 
@@ -87,7 +89,7 @@ class ServerBall {
             if (this.y >= this.bluePaddle.position-20 && this.y <= this.bluePaddle.position + this.bluePaddle.height) {
                 let randomSpin = Math.random() * 2;
                 this.velocity.x *= -1;
-                this.velocity.y += this.bluePaddle.direction * randomSpin;
+                this.velocity.y += this.bluePaddle.direction + randomSpin;
             }
         }
     }

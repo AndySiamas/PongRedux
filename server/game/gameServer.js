@@ -40,6 +40,7 @@ GameServer.createGameListeners = (clients, room, io) => {
 GameServer.handlePlayerReady = (id, room, io) => {
     var player = Players[id];
     var opponent = Players[player.opponentId];
+    var ball = player.ball;
     player.readyToPlay = true;
     if (opponent.readyToPlay) {
         GameServer.emitBothPlayersReady(player, opponent, room, io);
@@ -58,7 +59,7 @@ GameServer.handlePlayerState = (id, position, direction, tick, io) => {
     player.tick = tick;
 
     // increase balls speed over time
-    ball.acceleration += 0.05;
+    ball.acceleration += 0.1;
 
     if (opponent && opponent.sentUpdate) {
         player.sentUpdate = false;
