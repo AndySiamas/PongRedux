@@ -38,8 +38,8 @@ class NetworkGameManager extends React.Component {
         this.state = {
             readyToPlay: false,  // COMMENT TO FALSE WHEN TESTING ON SERVER!
             gameInAction: false,
-            bluePoints: 4,
-            redPoints: 4,
+            bluePoints: 0,
+            redPoints: 0,
             playerColor: null,
             entities: {}
         }
@@ -51,7 +51,6 @@ class NetworkGameManager extends React.Component {
         this.createEventListeners();
         this.startRound();
         this.startClientTick();
-        console.log(this.moveTracker);
     }
 
     loadAssets() {
@@ -93,6 +92,7 @@ class NetworkGameManager extends React.Component {
 
     startRound() {
         Time.in(3000, 'startRound', () => {
+            ServerManager.notifyPlayerStartedRound();
             this.setState({gameInAction: true});
         });
     }
@@ -212,6 +212,12 @@ class NetworkGameManager extends React.Component {
 
         // When server sends us updated game state
         ServerManager.on('serverUpdate', 'updateClientState', this.serverUpdate.bind(this));
+
+        // When server tells us a player scored
+        ServerManager.on('playerScore', 'updatePlayerScore', this.playerScores.bind(this));
+
+        // When server tells us a player scored
+        ServerManager.on('playerWin', 'playerWon', this.triggerWin.bind(this));
     }
 
     render() {

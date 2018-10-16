@@ -5,17 +5,19 @@ class ServerBall {
         this.x = 0;
         this.y = 0;
         this.direction = {x: 1, y: 0.25};
-        this.speed = 7;
+        this.speed = 8;
         this.redGoalX = 40;
         this.blueGoalX = 940;
         this.redPaddleX = 117;
         this.bluePaddleX = 855;
-        this.paddleBuffer = 2;
+        this.paddleBuffer = 10;
         this.topMax = 48;
         this.bottomMax = 524;
         this.bluePaddle = null;
         this.redPaddle = null;
         this.goalCallback;
+        this.idle = true;
+        this.acceleration = 1;
         this.getVelocity();
         this.resetPosition();
         this.serverMove;
@@ -26,7 +28,7 @@ class ServerBall {
         this.bluePaddle = bluePaddle;
         this.getVelocity();
         this.serverMove = this.move.bind(this);
-        //this.goalCallback = cb.bind(state);
+        this.goalCallback = cb;
     }
 
     resetPosition() {
@@ -36,8 +38,8 @@ class ServerBall {
 
     getVelocity() {
         let velocity = {};
-        velocity.x = this.speed * this.direction.x;
-        velocity.y = this.speed * this.direction.y;
+        velocity.x = this.speed * this.direction.x * this.acceleration;
+        velocity.y = this.speed * this.direction.y * this.acceleration;;
         this.velocity = velocity;
     }
 
@@ -74,16 +76,18 @@ class ServerBall {
         // IF ON THE SAME X AXIS AS THE RED PADDLE
         if (this.x <= this.redPaddleX + this.paddleBuffer && this.x >= this.redPaddleX - this.paddleBuffer) {
             if (this.y >= this.redPaddle.position-20 && this.y <= this.redPaddle.position + this.redPaddle.height) {
+                let randomSpin = Math.random() * 2;
                 this.velocity.x *= -1;
-                this.velocity.y += this.redPaddle.direction;
+                this.velocity.y += this.redPaddle.direction * randomSpin;
             }
         }
 
         // IF ON THE SAME X AXIS AS THE BLUE PADDLE
         if (this.x <= this.bluePaddleX + this.paddleBuffer && this.x >= this.bluePaddleX - this.paddleBuffer) {
             if (this.y >= this.bluePaddle.position-20 && this.y <= this.bluePaddle.position + this.bluePaddle.height) {
+                let randomSpin = Math.random() * 2;
                 this.velocity.x *= -1;
-                this.velocity.y += this.bluePaddle.direction;
+                this.velocity.y += this.bluePaddle.direction * randomSpin;
             }
         }
     }
@@ -92,13 +96,13 @@ class ServerBall {
         // IF HIT THE RED GOAL
         if (this.x <= this.redGoalX) {
             this.velocity.x *= -1;
-            //this.goalCallback('blue');
+            this.goalCallback(this.bluePaddle);
         }
 
         // IF HIT THE BLUE GOAL
         if (this.x >= this.blueGoalX) {
             this.velocity.x *= -1;
-            //this.goalCallback('red');
+            this.goalCallback(this.redPaddle);
         }
     }
 };

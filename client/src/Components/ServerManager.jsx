@@ -75,6 +75,14 @@ class _ServerManager {
         this.io.on('serverUpdate', (playerOne, playerTwo, ball) => { 
             this.handleServerUpdate(playerOne, playerTwo, ball);
         });
+        // When server tells us a player scored
+        this.io.on('playerScore', (color) => { 
+            this.handlePlayerScore(color);
+        });
+        // When server tells us a player won
+        this.io.on('playerWin', (color) => { 
+            this.handlePlayerWin(color);
+        });
     }
     
     // ---------------------------------------------------
@@ -105,6 +113,16 @@ class _ServerManager {
         this.trigger('serverUpdate', playerOne, playerTwo, ball);
     }
 
+    // Handle players scoring
+    handlePlayerScore(color) {
+        this.trigger('playerScore', color);
+    }
+
+    // Handle players winning
+    handlePlayerWin(color) {
+        this.trigger('playerWin', color);
+    }
+
     // ---------------------------------------------------
     // EMITTERS ------------------------------------------
     // ---------------------------------------------------
@@ -114,6 +132,10 @@ class _ServerManager {
 
     notifyGameOver() {
         this.io.emit('gameOver', this.clientId);
+    }
+
+    notifyPlayerStartedRound() {
+        this.io.emit('playerStartedRound', this.clientId);
     }
 
     sendPlayerState(position, direction, tick) {

@@ -12,6 +12,7 @@ class Player {
         this.tick = 0;
         this.ball = serverBall;
         this.height = 90;
+        this.inAction = false;
     }
 }
 

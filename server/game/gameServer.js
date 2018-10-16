@@ -26,6 +26,9 @@ GameServer.createGameListeners = (clients, room, io) => {
         client.stream.on('playerState', (id, position, direction, tick) => { 
             GameServer.handlePlayerState(id, position, direction, tick, io); 
         });
+        client.stream.on('playerStartedRound', (id) => { 
+            GameServer.handlePlayerStartedRound(id);
+        });
     });
 }
 
@@ -48,17 +51,32 @@ GameServer.handlePlayerState = (id, position, direction, tick, io) => {
     var player = Players[id];
     var opponent = Players[player.opponentId]; 
     var room = player.room;
-    //if (player.color === 'red') console.log(tick);
-    // update player state
+    var ball = player.ball;
     player.sentUpdate = true;
     player.position = position + direction;
     player.direction = direction;
     player.tick = tick;
 
+    // increase balls speed over time
+    ball.acceleration += 0.05;
+
     if (opponent && opponent.sentUpdate) {
         player.sentUpdate = false;
         opponent.sentUpdate = false;
         GameServer.emitServerUpdate(room, player, opponent, io);
+    }
+}
+
+// PLAYER IS READY FOR NEXT ROUND
+GameServer.handlePlayerStartedRound = (id) => {
+    var player = Players[id];
+    var opponent = Players[player.opponentId];
+    var {ball} = Players[id];
+    player.isInAction = true;
+    if (opponent.isInAction) {
+        ball.idle = false;
+        player.isInAction = false;
+        opponent.isInAction = false;
     }
 }
 
@@ -68,11 +86,11 @@ GameServer.handlePlayerState = (id, position, direction, tick, io) => {
 // TELL PLAYERS TO START THE GAME
 GameServer.emitBothPlayersReady = (player, opponent, room, io) => {
     io.to(room).emit('bothPlayersReady');
-    GameServer.emitStartInformation(player, opponent);
+    GameServer.emitStartInformation(player, opponent, io);
 }
 
 // TELL PLAYERS WHAT COLOR THEY ARE
-GameServer.emitStartInformation = (player, opponent) => {
+GameServer.emitStartInformation = (player, opponent, io) => {
     // Get player colors
     player.color = 'red';
     opponent.color = 'blue';
@@ -80,7 +98,15 @@ GameServer.emitStartInformation = (player, opponent) => {
     opponent.socket.emit('startInformation', 'blue');
 
     // Initialize ball
-    player.ball.init(player, opponent);
+    player.ball.init(player, opponent, (player) => {
+        player.ball.idle = true;
+        player.ball.resetPosition();
+        GameServer.emitPlayerScore(player, io);
+    });
+}
+
+GameServer.emitPlayerScore = ({room, color}, io) => {
+    io.to(room).emit('playerScore', color);
 }
 
 // GIVE PLAYERS UPDATED STATE
@@ -102,7 +128,7 @@ GameServer.emitServerUpdate = (room, player, opponent, io) => {
     // update server ball state
     let ball = player.ball;
     let newBall = {};
-    ball.serverMove();
+    if (!ball.idle) ball.serverMove();
     newBall.x = ball.x;
     newBall.y = ball.y;
 
